@@ -4,6 +4,18 @@ import uuid
 from django.db import migrations, models
 
 
+def gen_uuids(apps, schema_editor):
+    for model_name in ('Notification', 'Order', 'Review', 'Wishlist', 'Sales'):
+        try:
+            Model = apps.get_model('products', model_name)
+        except LookupError:
+            continue
+        for obj in Model.objects.all():
+            if not getattr(obj, 'uuid_id', None):
+                obj.uuid_id = uuid.uuid4()
+                obj.save(update_fields=['uuid_id'])
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -11,29 +23,30 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.AddField(
             model_name='notification',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False),
+            name='uuid_id',
+            field=models.UUIDField(null=True, unique=True, editable=False),
         ),
-        migrations.AlterField(
+        migrations.AddField(
             model_name='order',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False),
+            name='uuid_id',
+            field=models.UUIDField(null=True, unique=True, editable=False),
         ),
-        migrations.AlterField(
+        migrations.AddField(
             model_name='review',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False),
+            name='uuid_id',
+            field=models.UUIDField(null=True, unique=True, editable=False),
         ),
-        migrations.AlterField(
+        migrations.AddField(
             model_name='sales',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False),
+            name='uuid_id',
+            field=models.UUIDField(null=True, unique=True, editable=False),
         ),
-        migrations.AlterField(
+        migrations.AddField(
             model_name='wishlist',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False),
+            name='uuid_id',
+            field=models.UUIDField(null=True, unique=True, editable=False),
         ),
+        migrations.RunPython(gen_uuids, migrations.RunPython.noop),
     ]

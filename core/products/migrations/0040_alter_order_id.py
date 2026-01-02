@@ -4,6 +4,17 @@ import uuid
 from django.db import migrations, models
 
 
+def gen_order_uuid(apps, schema_editor):
+    try:
+        Order = apps.get_model('products', 'Order')
+    except LookupError:
+        return
+    for o in Order.objects.all():
+        if not getattr(o, 'uuid_id', None):
+            o.uuid_id = uuid.uuid4()
+            o.save(update_fields=['uuid_id'])
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -11,9 +22,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.AddField(
             model_name='order',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False),
+            name='uuid_id',
+            field=models.UUIDField(null=True, unique=True, editable=False),
         ),
+        migrations.RunPython(gen_order_uuid, migrations.RunPython.noop),
     ]
