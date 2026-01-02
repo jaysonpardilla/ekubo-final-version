@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: ekubo-web
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: free
+    # Set the start command to run migrations, collectstatic, then Daphne.
+    # Render will run your container's CMD by default; start.sh already handles this.
+    # Environment variables to set in the Render dashboard before deploying:
+    # - DATABASE_URL (Postgres, e.g. provided by Render Postgres)
+    # - REDIS_URL (Redis/RedisCloud or Render Redis)
+    # - SECRET_KEY
+    # - ALLOWED_HOSTS (comma-separated)
+    # - CLOUDINARY_URL (optional, if using Cloudinary for media)
