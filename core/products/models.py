@@ -9,7 +9,8 @@ from django.db.models import Sum
 
 
 class Business(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # keep existing integer PK in DB; add nullable uuid_id for safe migration
+    uuid_id = models.UUIDField(null=True, unique=True, editable=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     business_name = models.CharField(max_length=255)
     business_description = models.CharField(max_length=255)
@@ -75,7 +76,8 @@ class Wishlist(models.Model):
         unique_together = ('user', 'product')  # To prevent duplicate entries
 
 class Category(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # keep existing integer PK in DB; add nullable uuid_id for safe migration
+    uuid_id = models.UUIDField(null=True, unique=True, editable=False)
     name = models.CharField(max_length=255, unique=True)
     image = models.ImageField(upload_to='product_category/', blank=False, default='default_category/')
 
@@ -99,7 +101,8 @@ class Product(models.Model):
         ('Liter', 'Per Liter')
     ]
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # keep existing integer PK in DB; add nullable uuid_id for safe migration
+    uuid_id = models.UUIDField(null=True, unique=True, editable=False)
     seller = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='products')
     product_category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='products')  # Category field added
     product_name = models.CharField(max_length=255)

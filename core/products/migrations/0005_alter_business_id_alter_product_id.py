@@ -4,6 +4,19 @@ import uuid
 from django.db import migrations, models
 
 
+def gen_uuids(apps, schema_editor):
+    Business = apps.get_model('products', 'Business')
+    Product = apps.get_model('products', 'Product')
+    for b in Business.objects.all():
+        if not getattr(b, 'uuid_id', None):
+            b.uuid_id = uuid.uuid4()
+            b.save(update_fields=['uuid_id'])
+    for p in Product.objects.all():
+        if not getattr(p, 'uuid_id', None):
+            p.uuid_id = uuid.uuid4()
+            p.save(update_fields=['uuid_id'])
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -11,14 +24,15 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.AddField(
             model_name='business',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False),
+            name='uuid_id',
+            field=models.UUIDField(null=True, unique=True, editable=False),
         ),
-        migrations.AlterField(
+        migrations.AddField(
             model_name='product',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False),
+            name='uuid_id',
+            field=models.UUIDField(null=True, unique=True, editable=False),
         ),
+        migrations.RunPython(gen_uuids, migrations.RunPython.noop),
     ]
