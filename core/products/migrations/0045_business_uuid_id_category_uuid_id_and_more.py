@@ -67,10 +67,11 @@ class Migration(migrations.Migration):
             """,
             reverse_sql=None,
         ),
-        migrations.AlterField(
-            model_name='category',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+        # Skip AlterField for category.id — if id is already uuid, don't attempt to cast back to bigint
+        # This is a no-op to preserve the existing schema state
+        migrations.RunSQL(
+            sql="SELECT 1;",  # no-op
+            reverse_sql=None,
         ),
         migrations.DeleteModel(
             name='Sales',
