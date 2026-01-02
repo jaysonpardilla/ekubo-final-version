@@ -15,10 +15,11 @@ class Migration(migrations.Migration):
             name='uuid_id',
             field=models.UUIDField(editable=False, null=True, unique=True),
         ),
-        migrations.AlterField(
-            model_name='category',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+        # Skip altering `category.id` back to BigAutoField — unsafe when IDs are UUIDs.
+        # This no-op preserves the current schema and avoids Postgres cast errors.
+        migrations.RunSQL(
+            sql="SELECT 1;",
+            reverse_sql=migrations.RunSQL.noop,
         ),
         migrations.AlterField(
             model_name='category',
