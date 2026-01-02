@@ -142,13 +142,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Use Cloudinary for media when CLOUDINARY_URL is set
-if os.environ.get('CLOUDINARY_URL') or os.environ.get('CLOUDINARY_CLOUD_NAME'):
+if os.environ.get('CLOUDINARY_URL=cloudinary://266657844738454:j2gA_Z8zZ0b1qN3n_Ss-yy1bv30@dkvhqzo31') or os.environ.get('dkvhqzo31'):
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
     # Optional: configure CLOUDINARY_STORAGE dict if detailed creds provided
     CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-        'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-        'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+        'CLOUD_NAME': os.environ.get('dkvhqzo31'),
+        'API_KEY': os.environ.get('266657844738454'),
+        'API_SECRET': os.environ.get('j2gA_Z8zZ0b1qN3n_Ss-yy1bv30'),
     }
 
 # Use WhiteNoise compressed manifest storage for static files
@@ -172,6 +172,13 @@ if not DEBUG:
     # Other secure defaults
     X_FRAME_OPTIONS = 'DENY'
 
+    # When running behind a proxy (Render, Heroku, etc.) the proxy
+    # terminates TLS and forwards requests to the app over HTTP. Tell
+    # Django to trust the `X-Forwarded-Proto` header so `is_secure()`
+    # returns True for proxied HTTPS requests and `SECURE_SSL_REDIRECT`
+    # does not loop.
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_HOST = True
 # settings.py
 AUTH_USER_MODEL = 'chat.CustomUser'
 
