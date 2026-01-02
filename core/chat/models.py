@@ -29,7 +29,8 @@ class CustomUser(AbstractUser):
 
 
 class Message(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # id: auto-increment int PK (legacy, kept for backwards compatibility during migration)
+    uuid_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, null=True, blank=True)
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='sent_messages', on_delete=models.CASCADE)
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='received_messages', on_delete=models.CASCADE)
     content = models.TextField()
@@ -40,6 +41,8 @@ class Message(models.Model):
         return f"{self.content}"
 
 class Profile(models.Model):
+    # id: auto-increment int PK (legacy, kept for backwards compatibility during migration)
+    uuid_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, null=True, blank=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     profile = models.ImageField(upload_to='user_profiles', default='default.png')
     province = models.CharField(max_length=100, null=True, blank=True)
