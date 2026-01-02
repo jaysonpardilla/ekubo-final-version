@@ -22,12 +22,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL(
-            sql=(
-                "ALTER TABLE IF EXISTS products_order ADD COLUMN IF NOT EXISTS uuid_id uuid;"
-                "CREATE UNIQUE INDEX IF NOT EXISTS products_order_uuid_id_idx ON products_order(uuid_id);"
-            ),
-            reverse_sql=migrations.RunSQL.noop,
+        migrations.AddField(
+            model_name='order',
+            name='uuid_id',
+            field=models.UUIDField(null=True, blank=True, unique=True),
         ),
         migrations.RunPython(gen_order_uuid, migrations.RunPython.noop),
     ]
