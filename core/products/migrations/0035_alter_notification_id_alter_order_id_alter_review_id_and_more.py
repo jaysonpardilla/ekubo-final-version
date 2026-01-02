@@ -23,30 +23,40 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='notification',
-            name='uuid_id',
-            field=models.UUIDField(null=True, unique=True, editable=False),
+        migrations.RunSQL(
+            sql=(
+                "ALTER TABLE IF EXISTS products_notification ADD COLUMN IF NOT EXISTS uuid_id uuid;"
+                "CREATE UNIQUE INDEX IF NOT EXISTS products_notification_uuid_id_idx ON products_notification(uuid_id);"
+            ),
+            reverse_sql=migrations.RunSQL.noop,
         ),
-        migrations.AddField(
-            model_name='order',
-            name='uuid_id',
-            field=models.UUIDField(null=True, unique=True, editable=False),
+        migrations.RunSQL(
+            sql=(
+                "ALTER TABLE IF EXISTS products_order ADD COLUMN IF NOT EXISTS uuid_id uuid;"
+                "CREATE UNIQUE INDEX IF NOT EXISTS products_order_uuid_id_idx ON products_order(uuid_id);"
+            ),
+            reverse_sql=migrations.RunSQL.noop,
         ),
-        migrations.AddField(
-            model_name='review',
-            name='uuid_id',
-            field=models.UUIDField(null=True, unique=True, editable=False),
+        migrations.RunSQL(
+            sql=(
+                "ALTER TABLE IF EXISTS products_review ADD COLUMN IF NOT EXISTS uuid_id uuid;"
+                "CREATE UNIQUE INDEX IF NOT EXISTS products_review_uuid_id_idx ON products_review(uuid_id);"
+            ),
+            reverse_sql=migrations.RunSQL.noop,
         ),
-        migrations.AddField(
-            model_name='sales',
-            name='uuid_id',
-            field=models.UUIDField(null=True, unique=True, editable=False),
+        migrations.RunSQL(
+            sql=(
+                "ALTER TABLE IF EXISTS products_sales ADD COLUMN IF NOT EXISTS uuid_id uuid;"
+                "CREATE UNIQUE INDEX IF NOT EXISTS products_sales_uuid_id_idx ON products_sales(uuid_id);"
+            ),
+            reverse_sql=migrations.RunSQL.noop,
         ),
-        migrations.AddField(
-            model_name='wishlist',
-            name='uuid_id',
-            field=models.UUIDField(null=True, unique=True, editable=False),
+        migrations.RunSQL(
+            sql=(
+                "ALTER TABLE IF EXISTS products_wishlist ADD COLUMN IF NOT EXISTS uuid_id uuid;"
+                "CREATE UNIQUE INDEX IF NOT EXISTS products_wishlist_uuid_id_idx ON products_wishlist(uuid_id);"
+            ),
+            reverse_sql=migrations.RunSQL.noop,
         ),
         migrations.RunPython(gen_uuids, migrations.RunPython.noop),
     ]

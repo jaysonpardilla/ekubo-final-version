@@ -24,15 +24,19 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='business',
-            name='uuid_id',
-            field=models.UUIDField(null=True, unique=True, editable=False),
+        migrations.RunSQL(
+            sql=(
+                "ALTER TABLE IF EXISTS products_business ADD COLUMN IF NOT EXISTS uuid_id uuid;"
+                "CREATE UNIQUE INDEX IF NOT EXISTS products_business_uuid_id_idx ON products_business(uuid_id);"
+            ),
+            reverse_sql=migrations.RunSQL.noop,
         ),
-        migrations.AddField(
-            model_name='product',
-            name='uuid_id',
-            field=models.UUIDField(null=True, unique=True, editable=False),
+        migrations.RunSQL(
+            sql=(
+                "ALTER TABLE IF EXISTS products_product ADD COLUMN IF NOT EXISTS uuid_id uuid;"
+                "CREATE UNIQUE INDEX IF NOT EXISTS products_product_uuid_id_idx ON products_product(uuid_id);"
+            ),
+            reverse_sql=migrations.RunSQL.noop,
         ),
         migrations.RunPython(gen_uuids, migrations.RunPython.noop),
     ]
