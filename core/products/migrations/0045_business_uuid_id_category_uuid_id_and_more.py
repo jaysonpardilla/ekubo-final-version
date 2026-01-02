@@ -10,45 +10,62 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='business',
-            name='uuid_id',
-            field=models.UUIDField(editable=False, null=True, unique=True),
+        # Use idempotent SQL so repeated runs don't fail on DuplicateColumn
+        migrations.RunSQL(
+            sql="""
+            ALTER TABLE products_business ADD COLUMN IF NOT EXISTS uuid_id uuid UNIQUE NULL;
+            CREATE UNIQUE INDEX IF NOT EXISTS products_business_uuid_id_idx ON products_business(uuid_id) WHERE uuid_id IS NOT NULL;
+            """,
+            reverse_sql=None,
         ),
-        migrations.AddField(
-            model_name='category',
-            name='uuid_id',
-            field=models.UUIDField(editable=False, null=True, unique=True),
+        migrations.RunSQL(
+            sql="""
+            ALTER TABLE products_category ADD COLUMN IF NOT EXISTS uuid_id uuid UNIQUE NULL;
+            CREATE UNIQUE INDEX IF NOT EXISTS products_category_uuid_id_idx ON products_category(uuid_id) WHERE uuid_id IS NOT NULL;
+            """,
+            reverse_sql=None,
         ),
-        migrations.AddField(
-            model_name='notification',
-            name='uuid_id',
-            field=models.UUIDField(editable=False, null=True, unique=True),
+        migrations.RunSQL(
+            sql="""
+            ALTER TABLE products_notification ADD COLUMN IF NOT EXISTS uuid_id uuid UNIQUE NULL;
+            CREATE UNIQUE INDEX IF NOT EXISTS products_notification_uuid_id_idx ON products_notification(uuid_id) WHERE uuid_id IS NOT NULL;
+            """,
+            reverse_sql=None,
         ),
-        migrations.AddField(
-            model_name='order',
-            name='uuid_id',
-            field=models.UUIDField(editable=False, null=True, unique=True),
+        migrations.RunSQL(
+            sql="""
+            ALTER TABLE products_order ADD COLUMN IF NOT EXISTS uuid_id uuid UNIQUE NULL;
+            CREATE UNIQUE INDEX IF NOT EXISTS products_order_uuid_id_idx ON products_order(uuid_id) WHERE uuid_id IS NOT NULL;
+            """,
+            reverse_sql=None,
         ),
-        migrations.AddField(
-            model_name='product',
-            name='uuid_id',
-            field=models.UUIDField(editable=False, null=True, unique=True),
+        migrations.RunSQL(
+            sql="""
+            ALTER TABLE products_product ADD COLUMN IF NOT EXISTS uuid_id uuid UNIQUE NULL;
+            CREATE UNIQUE INDEX IF NOT EXISTS products_product_uuid_id_idx ON products_product(uuid_id) WHERE uuid_id IS NOT NULL;
+            """,
+            reverse_sql=None,
         ),
-        migrations.AddField(
-            model_name='review',
-            name='uuid_id',
-            field=models.UUIDField(editable=False, null=True, unique=True),
+        migrations.RunSQL(
+            sql="""
+            ALTER TABLE products_review ADD COLUMN IF NOT EXISTS uuid_id uuid UNIQUE NULL;
+            CREATE UNIQUE INDEX IF NOT EXISTS products_review_uuid_id_idx ON products_review(uuid_id) WHERE uuid_id IS NOT NULL;
+            """,
+            reverse_sql=None,
         ),
-        migrations.AddField(
-            model_name='sellerreport',
-            name='uuid_id',
-            field=models.UUIDField(editable=False, null=True, unique=True),
+        migrations.RunSQL(
+            sql="""
+            ALTER TABLE products_sellerreport ADD COLUMN IF NOT EXISTS uuid_id uuid UNIQUE NULL;
+            CREATE UNIQUE INDEX IF NOT EXISTS products_sellerreport_uuid_id_idx ON products_sellerreport(uuid_id) WHERE uuid_id IS NOT NULL;
+            """,
+            reverse_sql=None,
         ),
-        migrations.AddField(
-            model_name='wishlist',
-            name='uuid_id',
-            field=models.UUIDField(editable=False, null=True, unique=True),
+        migrations.RunSQL(
+            sql="""
+            ALTER TABLE products_wishlist ADD COLUMN IF NOT EXISTS uuid_id uuid UNIQUE NULL;
+            CREATE UNIQUE INDEX IF NOT EXISTS products_wishlist_uuid_id_idx ON products_wishlist(uuid_id) WHERE uuid_id IS NOT NULL;
+            """,
+            reverse_sql=None,
         ),
         migrations.AlterField(
             model_name='category',
