@@ -141,15 +141,18 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Use Cloudinary for media when CLOUDINARY_URL is set
-if os.environ.get('CLOUDINARY_URL=cloudinary://266657844738454:j2gA_Z8zZ0b1qN3n_Ss-yy1bv30@dkvhqzo31') or os.environ.get('dkvhqzo31'):
+# Use Cloudinary for media when CLOUDINARY_URL or CLOUDINARY_CLOUD_NAME is set
+if os.environ.get('CLOUDINARY_URL') or os.environ.get('CLOUDINARY_CLOUD_NAME'):
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    # Optional: configure CLOUDINARY_STORAGE dict if detailed creds provided
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': os.environ.get('dkvhqzo31'),
-        'API_KEY': os.environ.get('266657844738454'),
-        'API_SECRET': os.environ.get('j2gA_Z8zZ0b1qN3n_Ss-yy1bv30'),
-    }
+    # If explicit Cloudinary credentials are provided via env vars, configure them.
+    # Prefer individual vars when present; if CLOUDINARY_URL is provided, the
+    # cloudinary library will use it automatically.
+    if os.environ.get('CLOUDINARY_CLOUD_NAME'):
+        CLOUDINARY_STORAGE = {
+            'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+            'API_KEY': os.environ.get('CLOUDINARY_API_KEY') or os.environ.get('CLOUDINARY_KEY'),
+            'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET') or os.environ.get('CLOUDINARY_SECRET'),
+        }
 
 # Use WhiteNoise compressed manifest storage for static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
