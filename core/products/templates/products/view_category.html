@@ -9,14 +9,13 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
       <meta content="Codescandy" name="author" />
       <title>Shop Grid eCommerce HTML Template - FreshCart</title>
-      <!-- Favicon icon-->
       <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon/favicon.ico' %}" />
       <link rel="stylesheet" href="{% static 'css/slideup.css' %}">
 
-      <!-- Theme CSS -->
       <link rel="stylesheet" href="{% static 'css/theme.min.css' %}" />
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
-      <script>
+
+      <script type="text/javascript">
          window.dataLayer = window.dataLayer || [];
          function gtag() {
             dataLayer.push(arguments);
@@ -24,8 +23,7 @@
          gtag("js", new Date());
 
          gtag("config", "G-M8S4MT3EYG");
-      </script>
-      <script type="text/javascript">
+
          (function (c, l, a, r, i, t, y) {
             c[a] =
                c[a] ||
@@ -651,19 +649,10 @@
          </div>
       </main>
 {% include 'chat/footer.html' %}
-
-      <!-- Javascript-->
-      <script src="{% static 'libs/nouislider/dist/nouislider.min.js' %}"></script>
-      <script src="{% static 'libs/wnumb/wNumb.min.js' %}"></script>
-      <!-- Libs JS -->
-      <!-- <script src="../assets/libs/jquery/dist/jquery.min.js"></script> -->
-      <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
-      <script src="{% static 'libs/simplebar/dist/simplebar.min.js' %}"></script>
-
       <!-- Theme JS -->
       <script src="{% static 'js/theme.min.js' %}"></script>
       <script src="{% static 'js/slideup.js' %}"></script>
       <script src="{% static 'js/vendors/tns-slider.js' %}"></script>
-      <script src="{% js/vendors/zoom.js %}"></script>
+      <script src="{% static 'js/vendors/zoom.js' %}"></script>
    </body>
 </html>
