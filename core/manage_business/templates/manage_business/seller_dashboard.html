@@ -94,6 +94,17 @@
       th, td {
          font-size: 12px;
       }
+   } 
+   .fade-out td, .fade-out th {
+   transition: opacity 0.6s ease, padding 0.6s ease;
+   opacity: 0 !important;
+   padding-top: 0 !important;
+   padding-bottom: 0 !important;
+   }
+   .fade-out {
+      transition: height 0.6s ease, margin 0.6s ease;
+      height: 0 !important;
+      margin: 0 !important;
    }
 </style>
 
@@ -271,20 +282,6 @@
    </div>
 </div>
 
-<style>
-/* Fade-out animation for table rows: animate cell opacity and padding, then remove the row */
-.fade-out td, .fade-out th {
-   transition: opacity 0.6s ease, padding 0.6s ease;
-   opacity: 0 !important;
-   padding-top: 0 !important;
-   padding-bottom: 0 !important;
-}
-.fade-out {
-   transition: height 0.6s ease, margin 0.6s ease;
-   height: 0 !important;
-   margin: 0 !important;
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
@@ -392,7 +389,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
 });
 </script>
-
 <script src="{% static 'js/slideup.js' %}"></script>
 <script src="{% static 'js/messages.js' %}"></script>
 {% endblock %}
