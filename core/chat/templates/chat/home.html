@@ -16,21 +16,9 @@
     <link rel="stylesheet" href="{% static 'css/1update_profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/profile_detail.css' %}">
     <link rel="stylesheet" href="{% static 'css/update-address.css' %}">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag("js", new Date());
-        gtag("config", "G-M8S4MT3EYG");
-    </script>
 </head>
 <body style="background-color: #EDEBE2">
     {% include 'chat/navbar.html' %}
-
-
-<main style="font-family: 'Arial', sans-serif;">
 
    <!-- Messages Alert -->
    {% if messages %}
@@ -567,8 +555,6 @@
       </div>
    </div>
    <!-- End All Categories Modal -->
-</main>
-
 {% include 'chat/footer.html' %}
 
 <script>
@@ -605,7 +591,13 @@
                    });
            });
        });
-   });
+   }); 
+   window.dataLayer = window.dataLayer || [];
+   function gtag() {
+      dataLayer.push(arguments);
+   }
+   gtag("js", new Date());
+   gtag("config", "G-M8S4MT3EYG");
 </script>
 
 <!-- CDN Scripts -->
@@ -622,6 +614,6 @@
 <script src="{% static 'js/vendors/slick-slider.js' %}"></script>
 <script src="{% static 'js/vendors/tns-slider.js' %}"></script>
 <script src="{% static 'js/vendors/zoom.js' %}"></script>
-
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
 </body>
 </html>      
