@@ -5,6 +5,7 @@ from django.conf import settings
 import uuid
 from django.utils import timezone
 from django.db.models import Sum
+from django.db import connection
 
 
 
@@ -89,7 +90,23 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+    def save(self, *args, **kwargs):
+        """Fallback: assign an explicit `id` if DB isn't auto-generating it.
+
+        Some Postgres setups (imported dumps or missing sequences) can cause
+        inserts to fail with a NOT NULL constraint on `id`. This will compute
+        `MAX(id)+1` and set `self.id` before inserting so the DB doesn't need
+        to auto-populate it.
+        """
+        if self.pk is None:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT COALESCE(MAX(id), 0) + 1 FROM products_category;")
+                row = cursor.fetchone()
+                next_id = row[0] if row and row[0] is not None else 1
+            self.id = next_id
+        super().save(*args, **kwargs)
+
     def category_image_url(self):
         try:
             url = self.image.url
