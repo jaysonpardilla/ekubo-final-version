@@ -1,15 +1,33 @@
-{% extends 'chat/base.html' %}
 {% load static custom_filters %}
-{% block title %}
-   <title>E-Kubo: Home</title>
-{% endblock title %}
-
-{% block content %}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="icon" type="image/png" href="{% static 'icons/ekubo_icon.png' %}">
-<link rel="stylesheet" href="{% static 'css/slideup.css' %}">
-<link rel="stylesheet" href="{% static 'css/messages.css' %}">
-<link rel="stylesheet" href="{% static 'css/home2.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta content="E-Kubo" name="author" />
+    <title>E-Kubo: Home</title>
+    <link rel="icon" type="image/png" href="{% static 'icons/ekubo_icon.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/theme.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/slideup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/messages.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/1update_profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/update-address.css' %}">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", "G-M8S4MT3EYG");
+    </script>
+</head>
+<body style="background-color: #EDEBE2">
+    {% include 'chat/navbar.html' %}
 
 
 <main style="font-family: 'Arial', sans-serif;">
@@ -551,7 +569,7 @@
    <!-- End All Categories Modal -->
 </main>
 
-
+{% include 'chat/footer.html' %}
 
 <script>
    document.addEventListener("DOMContentLoaded", function() {
@@ -561,11 +579,11 @@
            link.addEventListener("click", function() {
                const categoryId = this.getAttribute("data-category-id");
                
-               fetch(`/get-products/${categoryId}/`)  // Update URL to match Django route
+               fetch(`/get-products/${categoryId}/`)
                    .then(response => response.json())
                    .then(data => {
                        const productsContainer = document.getElementById("products-container");
-                       productsContainer.innerHTML = ""; // Clear previous products
+                       productsContainer.innerHTML = "";
                        
                        if (data.products.length > 0) {
                            data.products.forEach(product => {
@@ -589,19 +607,21 @@
        });
    });
 </script>
+
+<!-- CDN Scripts -->
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'libs/simplebar/dist/simplebar.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.js"></script>
+
+<!-- Existing Static JS Files -->
 <script src="{% static 'js/slideup.js' %}"></script>
 <script src="{% static 'js/theme.min.js' %}"></script>
 <script src="{% static 'js/messages.js' %}"></script>
 <script src="{% static 'js/vendors/jquery.min.js' %}"></script>
 <script src="{% static 'js/vendors/countdown.js' %}"></script>
-<script src="{% static 'libs/slick-carousel/slick/slick.min.js' %}"></script>
 <script src="{% static 'js/vendors/slick-slider.js' %}"></script>
-<script src="{% static 'libs/tiny-slider/dist/min/tiny-slider.js' %}"></script>
 <script src="{% static 'js/vendors/tns-slider.js' %}"></script>
 <script src="{% static 'js/vendors/zoom.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.js"></script>
-{% endblock %}      
+
+</body>
+</html>      
