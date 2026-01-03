@@ -44,15 +44,19 @@ def signup(request):
         recaptcha_response = request.POST.get("g-recaptcha-response")
 
         data = {
-            "secret": "6LfndgYrAAAAAKfMxiRbV0BI0pqvEHHkqyWRYRKO",
+            "secret": getattr(settings, 'RECAPTCHA_SECRET_KEY', ''),
             "response": recaptcha_response
         }
         google_url = "https://www.google.com/recaptcha/api/siteverify"
         response = requests.post(google_url, data=data)
         result = response.json()
-
+        # If verification failed, surface Google's error codes for debugging
         if not result.get("success"):
-            messages.error(request, "reCAPTCHA verification failed. Please try again.")
+            errors = result.get('error-codes', [])
+            msg = "reCAPTCHA verification failed."
+            if errors:
+                msg += " (" + ", ".join(errors) + ")"
+            messages.error(request, msg)
             return redirect(reverse("chat:signup"))
         
         if password != confirm_password:
