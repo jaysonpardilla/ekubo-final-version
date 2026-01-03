@@ -5,7 +5,6 @@ from django.conf import settings
 import uuid
 from django.utils import timezone
 from django.db.models import Sum
-from django.db import connection
 
 
 
@@ -83,35 +82,13 @@ class Wishlist(models.Model):
         unique_together = ('user', 'product')  # To prevent duplicate entries
 
 class Category(models.Model):
-    # keep existing integer PK in DB; add nullable uuid_id for safe migration
-    uuid_id = models.UUIDField(null=True, unique=True, editable=False)
+    # Use UUID primary key to match existing DB schema where `id` is UUID.
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
     image = models.ImageField(upload_to='product_category/', blank=False, default='default_category.png')
 
     def __str__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        """Fallback: assign an explicit `id` if DB isn't auto-generating it.
-
-        Some Postgres setups (imported dumps or missing sequences) can cause
-        inserts to fail with a NOT NULL constraint on `id`. This will compute
-        `MAX(id)+1` and set `self.id` before inserting so the DB doesn't need
-        to auto-populate it.
-        """
-        if self.pk is None:
-            with connection.cursor() as cursor:
-                try:
-                    # Try numeric max (for integer PKs)
-                    cursor.execute("SELECT COALESCE(MAX(id), 0) + 1 FROM products_category;")
-                    row = cursor.fetchone()
-                    next_id = row[0] if row and row[0] is not None else 1
-                    self.id = next_id
-                except Exception:
-                    # If the id column is a UUID (or other non-numeric), fall back
-                    # to generating a UUID primary key.
-                    self.id = uuid.uuid4()
-        super().save(*args, **kwargs)
 
     def category_image_url(self):
         try:
