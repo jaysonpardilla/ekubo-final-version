@@ -101,10 +101,16 @@ class Category(models.Model):
         """
         if self.pk is None:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT COALESCE(MAX(id), 0) + 1 FROM products_category;")
-                row = cursor.fetchone()
-                next_id = row[0] if row and row[0] is not None else 1
-            self.id = next_id
+                try:
+                    # Try numeric max (for integer PKs)
+                    cursor.execute("SELECT COALESCE(MAX(id), 0) + 1 FROM products_category;")
+                    row = cursor.fetchone()
+                    next_id = row[0] if row and row[0] is not None else 1
+                    self.id = next_id
+                except Exception:
+                    # If the id column is a UUID (or other non-numeric), fall back
+                    # to generating a UUID primary key.
+                    self.id = uuid.uuid4()
         super().save(*args, **kwargs)
 
     def category_image_url(self):
