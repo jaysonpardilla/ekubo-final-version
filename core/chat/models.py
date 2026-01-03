@@ -27,7 +27,6 @@ class CustomUser(AbstractUser):
         blank=True
     )
 
-
 class Message(models.Model):
     # id: auto-increment int PK (legacy, kept for backwards compatibility during migration)
     uuid_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, null=True, blank=True)
@@ -44,7 +43,7 @@ class Profile(models.Model):
     # id: auto-increment int PK (legacy, kept for backwards compatibility during migration)
     uuid_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, null=True, blank=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    profile = models.ImageField(upload_to='user_profiles', default='default.png')
+    profile = models.ImageField(upload_to='user_profiles', default='default_profile.png')
     province = models.CharField(max_length=100, null=True, blank=True)
     municipality = models.CharField(max_length=100, null=True, blank=True)
     street = models.CharField(max_length=200,  null=True, blank=True)
