@@ -181,6 +181,7 @@ def show_products_category(request, category_id):
     }
     return render(request, 'products/view_category_product.html', context)
 
+@login_required(login_url='/login/')
 def submit_report(request):
     if request.method == 'POST':
         report = SellerReport(
