@@ -85,7 +85,7 @@ class Category(models.Model):
     # keep existing integer PK in DB; add nullable uuid_id for safe migration
     uuid_id = models.UUIDField(null=True, unique=True, editable=False)
     name = models.CharField(max_length=255, unique=True)
-    image = models.ImageField(upload_to='product_category/', blank=False, default='default_category')
+    image = models.ImageField(upload_to='product_category/', blank=False, default='default_category.png')
 
     def __str__(self):
         return self.name
