@@ -9,8 +9,7 @@ from django.db.models import Sum
 
 
 class Business(models.Model):
-    # keep existing integer PK in DB; add nullable uuid_id for safe migration
-    uuid_id = models.UUIDField(null=True, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     business_name = models.CharField(max_length=255)
     business_description = models.CharField(max_length=255)
@@ -41,8 +40,7 @@ class Business(models.Model):
         return self.business_name
 
 class Order(models.Model):
-    # keep existing integer PK in DB; add nullable uuid_id for safe migration
-    uuid_id = models.UUIDField(null=True, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     order_quantity = models.IntegerField(default=1)
@@ -60,8 +58,7 @@ class Order(models.Model):
         return f"Order by {self.buyer} - Status: {self.status}"
 
 class Notification(models.Model):
-    # keep existing integer PK in DB; add nullable uuid_id for safe migration
-    uuid_id = models.UUIDField(null=True, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
     message = models.TextField()
     quantity = models.IntegerField(default=1)
@@ -71,8 +68,7 @@ class Notification(models.Model):
         ordering = ['created_at']
 
 class Wishlist(models.Model):
-    # keep existing integer PK in DB; add nullable uuid_id for safe migration
-    uuid_id = models.UUIDField(null=True, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
@@ -82,7 +78,6 @@ class Wishlist(models.Model):
         unique_together = ('user', 'product')  # To prevent duplicate entries
 
 class Category(models.Model):
-    # Use UUID primary key to match existing DB schema where `id` is UUID.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
     image = models.ImageField(upload_to='product_category/', blank=False, default='default_category.png')
@@ -107,8 +102,7 @@ class Product(models.Model):
         ('Liter', 'Per Liter')
     ]
 
-    # keep existing integer PK in DB; add nullable uuid_id for safe migration
-    uuid_id = models.UUIDField(null=True, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     seller = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='products')
     product_category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='products')  # Category field added
     product_name = models.CharField(max_length=255)
@@ -174,8 +168,7 @@ class Product(models.Model):
 
 
 class Review(models.Model):
-    # keep existing integer PK in DB; add nullable uuid_id for safe migration
-    uuid_id = models.UUIDField(null=True, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(choices=[(i, i) for i in range(1, 6)]) 
@@ -190,8 +183,7 @@ class Review(models.Model):
 
 
 class SellerReport(models.Model):
-    # keep existing integer PK in DB; add nullable uuid_id for safe migration
-    uuid_id = models.UUIDField(null=True, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     buyer_name = models.CharField(max_length=100)
     buyer_email = models.EmailField()
     seller_name = models.CharField(max_length=100)
