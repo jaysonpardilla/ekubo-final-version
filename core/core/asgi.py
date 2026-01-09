@@ -1,6 +1,14 @@
 # core/asgi.py
 import os
+import sys
 import django
+
+# Ensure the parent directory (where the core project lives) is in sys.path
+# so that imports like 'from chat import ...' work alongside 'from core.chat import ...'
+current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
+
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
@@ -35,7 +43,7 @@ except Exception:
     mod.DEFAULT_CHANNEL_LAYER = None
     sys.modules['channels'] = mod
 
-from core.chat.routing import websocket_urlpatterns
+from chat.routing import websocket_urlpatterns
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),

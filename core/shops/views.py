@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from core.products.models import Business
-from core.products.forms import UpdateBusinessForm
+from products.models import Business
+from products.forms import UpdateBusinessForm
 from django.urls import reverse
-from core.products.models import Product
+from products.models import Product
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from core.products.models import Category
+from products.models import Category
 User = get_user_model()
 
 @login_required(login_url='/login/')

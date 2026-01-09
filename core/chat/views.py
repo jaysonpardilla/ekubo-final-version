@@ -8,14 +8,14 @@ from random import choice
 from .forms import DeliveryAddressForm, EditProfileForm, UpdateUser
 from django.contrib.auth.models import auth
 from django.urls import reverse
-from core.products.models import Product,Notification, Business, Wishlist
+from products.models import Product,Notification, Business, Wishlist
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from core.products.models import Order
-from core.products.models import Category, Product, Business, Wishlist, Review
+from products.models import Order
+from products.models import Category, Product, Business, Wishlist, Review
 import random
 from django.db.models import Max, Q
 from django.core.paginator import Paginator
@@ -25,7 +25,7 @@ from .email_utils import send_email_with_image
 from django.utils.timezone import now
 from .forms import VerifyUserForm, SetNewPasswordForm
 from uuid import UUID
-from core.products.recommendation import knn_recommend_products
+from products.recommendation import knn_recommend_products
 from django.db.models import Q, Max
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
