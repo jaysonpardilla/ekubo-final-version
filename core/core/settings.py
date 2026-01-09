@@ -24,10 +24,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
-    'chat',
-    'products', 
-    'manage_business',                
-    'shops', 
+    'core.chat',
+    'core.products',
+    'core.manage_business',
+    'core.shops',
     'captcha'
 ]
 
