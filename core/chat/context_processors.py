@@ -1,4 +1,4 @@
-from products.models import Business  # Import your Store model
+from core.products.models import Business  # Import your Store model
 from django.conf import settings
 
 

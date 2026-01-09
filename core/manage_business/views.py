@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from products.models import Product, Business, Notification, Category, Order
+from core.products.models import Product, Business, Notification, Category, Order
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib import messages

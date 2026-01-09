@@ -1,5 +1,5 @@
 from django import template
-from products.models import Wishlist
+from core.products.models import Wishlist
 
 register = template.Library()
 

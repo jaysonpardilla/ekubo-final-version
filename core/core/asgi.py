@@ -35,7 +35,7 @@ except Exception:
     mod.DEFAULT_CHANNEL_LAYER = None
     sys.modules['channels'] = mod
 
-from chat.routing import websocket_urlpatterns
+from core.chat.routing import websocket_urlpatterns
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
