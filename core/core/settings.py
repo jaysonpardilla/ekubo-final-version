@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
-     'core.core.chat',
+    'core.core.chat',
     'core.core.products', 
     'core.core.manage_business',                
     'core.core.shops', 
